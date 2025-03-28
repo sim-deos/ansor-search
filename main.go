@@ -6,13 +6,17 @@ import (
 	"log"
 	"os"
 
+	gdenv "github.com/joho/godotenv"
 	search "github.com/sim-deos/ansor-search/search"
 )
 
 func main() {
-	key := "AIzaSyDRh6Xh8iWIYcvbNcJFfDu7AUfoC0f8wWw"
-	cx := "e5bf4846021224002"
-	searcher := search.NewSearcher(key, cx)
+	err := gdenv.Load()
+	if err != nil {
+		log.Fatal("error loading .env files: ", err)
+	}
+
+	searcher := search.NewSearcher(os.Getenv("GSE_KEY"), os.Getenv("GSE_ENG"))
 
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("What would you like to search?")
